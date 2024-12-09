@@ -1,5 +1,6 @@
 package cl.fabioladiaz.sistemacliente.controller;
 
+import cl.fabioladiaz.sistemacliente.exceptions.ClienteNotFound;
 import cl.fabioladiaz.sistemacliente.model.Cliente;
 import cl.fabioladiaz.sistemacliente.service.ClienteService;
 import org.slf4j.Logger;
@@ -30,13 +31,15 @@ public class ClienteController {
 
     @GetMapping("/{rut}")
     public ResponseEntity<Cliente> findByRut(@PathVariable String rut) {
-        logger.info("cliente encontrado con el rut: {}", rut);
         Cliente cliente = clienteService.findByRut(rut);
         if (cliente == null) {
             logger.warn("Cliente con el rut {} not encontrado", rut);
-            return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
+            //return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
+            throw new ClienteNotFound(String.format("El estudiante con rut %s no existe",rut));
         }
-        return ResponseEntity.ok(cliente); // Retorna HTTP 200 OK con el cliente encontrado
+        logger.info("cliente encontrado con el rut: {}", rut);
+        //return ResponseEntity.ok(cliente); // Retorna HTTP 200 OK con el cliente encontrado
+        return ResponseEntity.status(HttpStatus.OK.value()).body(cliente);
     }
 
 
