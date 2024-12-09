@@ -8,6 +8,8 @@ import java.util.List;
 @ToString
 public class Cliente {
 
+    private static int incrementarid = 1;
+
     private int id;
     private String rut;
     private String nombre;
@@ -16,8 +18,8 @@ public class Cliente {
     private String direccion;
     private List<OrdenCompra> ordenesList;
 
-    public Cliente(int id, String rut, String nombre, String apellido, String correo, String direccion, List<OrdenCompra> ordenesList) {
-        this.id = id;
+    public Cliente(String rut, String nombre, String apellido, String correo, String direccion, List<OrdenCompra> ordenesList) {
+        this.id = incrementarid++;
         this.rut = rut;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -27,6 +29,14 @@ public class Cliente {
     }
 
     public Cliente() {
+    }
+
+    public static int getIncrementarid() {
+        return incrementarid;
+    }
+
+    public static void setIncrementarid(int incrementarid) {
+        Cliente.incrementarid = incrementarid;
     }
 
     public int getId() {
