@@ -35,7 +35,7 @@ public class ClienteController {
         if (cliente == null) {
             logger.warn("Cliente con el rut {} not encontrado", rut);
             //return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
-            throw new ClienteNotFound(String.format("El estudiante con rut %s no existe",rut));
+            throw new ClienteNotFound(String.format("El cliente con rut %s no existe",rut));
         }
         logger.info("cliente encontrado con el rut: {}", rut);
         //return ResponseEntity.ok(cliente); // Retorna HTTP 200 OK con el cliente encontrado
@@ -53,23 +53,26 @@ public class ClienteController {
 
     @PutMapping
     public ResponseEntity<Cliente> update(@RequestBody Cliente cliente) {
-        logger.info("se ha modificado el cliente: {}", cliente);
         Cliente clienteActualizado = clienteService.update(cliente);
         if (clienteActualizado == null) {
             logger.warn("Cliente cpn rut {} no encontrdo para modificar", cliente.getRut());
-            return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
+            //return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
+            throw new ClienteNotFound(String.format("El cliente %s no existe",cliente));
         }
+        logger.info("se ha modificado el cliente: {}", cliente);
         return ResponseEntity.ok(clienteActualizado); // Retorna HTTP 200 OK con el cliente actualizado
     }
 
     @DeleteMapping("/{rut}")
     public ResponseEntity<Cliente> delete(@PathVariable String rut) {
-        logger.info("ciente con rut {} eliminado", rut);
         Cliente clienteEliminado = clienteService.delete(rut);
         if (clienteEliminado == null) {
             logger.warn("Cliente con rut {} no encontrado para eliminar", rut);
-            return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
+            //return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
+            throw new ClienteNotFound(String.format("El cliente con rut %s no existe",rut));
+
         }
+        logger.info("ciente con rut {} eliminado", rut);
         return ResponseEntity.ok(clienteEliminado); // Retorna HTTP 200 OK con el cliente eliminado
     }
 }
