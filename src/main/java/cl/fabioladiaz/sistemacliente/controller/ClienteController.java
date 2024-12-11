@@ -2,10 +2,11 @@ package cl.fabioladiaz.sistemacliente.controller;
 
 import cl.fabioladiaz.sistemacliente.exceptions.ClienteNotFound;
 import cl.fabioladiaz.sistemacliente.model.Cliente;
-import cl.fabioladiaz.sistemacliente.service.ClienteService;
+import cl.fabioladiaz.sistemacliente.service.ImplClienteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,8 @@ import java.util.List;
 public class ClienteController {
 
     @Autowired
-    private ClienteService clienteService;
+    @Qualifier("implClienteService") //se usa cuando tengo varias implementaciones
+    private ImplClienteService clienteService;
 
     private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
 
@@ -43,6 +45,22 @@ public class ClienteController {
     }
 
 
+/* //Otra opción para findByRut, la ruta quedaría
+    hhtp://localhost:8080/clientes/findByRut?rut=111-1
+    @GetMapping("findByRut")
+    public ResponseEntity<Cliente> findByRut(@RequestParam String rut) {
+        Cliente cliente = clienteService.findByRut(rut);
+        if (cliente == null) {
+            logger.warn("Cliente con el rut {} not encontrado", rut);
+            //return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
+            throw new ClienteNotFound(String.format("El cliente con rut %s no existe",rut));
+        }
+        logger.info("cliente encontrado con el rut: {}", rut);
+        //return ResponseEntity.ok(cliente); // Retorna HTTP 200 OK con el cliente encontrado
+        return ResponseEntity.status(HttpStatus.OK.value()).body(cliente);
+    }
+
+*/
     @PostMapping
     public ResponseEntity<Cliente> create(@RequestBody Cliente cliente) {
         logger.info("Se creado el cliente: {}", cliente);

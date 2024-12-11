@@ -5,12 +5,11 @@ import lombok.*;
 import java.util.List;
 
 
-@ToString
 public class Cliente {
 
-    private static int incrementarid = 1;
+    private static Integer incrementarid = 1;
 
-    private int id;
+    private Integer id;
     private String rut;
     private String nombre;
     private String apellido;
@@ -31,19 +30,19 @@ public class Cliente {
     public Cliente() {
     }
 
-    public static int getIncrementarid() {
+    public static Integer getIncrementarid() {
         return incrementarid;
     }
 
-    public static void setIncrementarid(int incrementarid) {
+    public static void setIncrementarid(Integer incrementarid) {
         Cliente.incrementarid = incrementarid;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -94,4 +93,5 @@ public class Cliente {
     public void setOrdenesList(List<OrdenCompra> ordenesList) {
         this.ordenesList = ordenesList;
     }
+
 }

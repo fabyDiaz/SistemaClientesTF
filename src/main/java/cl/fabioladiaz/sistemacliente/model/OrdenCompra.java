@@ -7,11 +7,11 @@ import java.util.Date;
 @ToString
 public class OrdenCompra {
 
-    private int id;
+    private Integer id;
     private Date fecha;
-    private int idProducto;
+    private Integer idProducto;
 
-    public OrdenCompra(int id, Date fecha, int idProducto) {
+    public OrdenCompra(Integer id, Date fecha, Integer idProducto) {
         this.id = id;
         this.fecha = fecha;
         this.idProducto = idProducto;
@@ -20,11 +20,11 @@ public class OrdenCompra {
     public OrdenCompra() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,11 +36,11 @@ public class OrdenCompra {
         this.fecha = fecha;
     }
 
-    public int getIdProducto() {
+    public Integer getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(int idProducto) {
+    public void setIdProducto(Integer idProducto) {
         this.idProducto = idProducto;
     }
 }

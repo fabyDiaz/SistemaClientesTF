@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Service
-public class ClienteService {
+public class ImplClienteService implements IClienteService {
 
     private List<Cliente> clientes = new ArrayList<>();
    // OrdenCompra ordenCompra = new OrdenCompra(1,new Date(),1);
 
-    public ClienteService(){
+    public ImplClienteService(){
         this.clientes.add(new Cliente("111-1", "Homero", "Simpson", "homero@mail.com", "Calle 1",
                 List.of(new OrdenCompra(1, new Date(), 1), new OrdenCompra(2, new Date(),2))));
         this.clientes.add(new Cliente("111-2", "March", "Simpson", "march@mail.com", "Calle 1",
@@ -36,11 +36,27 @@ public class ClienteService {
 
 
     public Cliente create(Cliente cliente) {
-        int id = Cliente.getIncrementarid();
+        // Verificar si ya existe un cliente con el mismo RUT o correo
+        Cliente existeCliente = this.clientes.stream()
+                .filter(clienteTemporal ->
+                        clienteTemporal.getRut().equals(cliente.getRut()) ||
+                                clienteTemporal.getCorreo().equals(cliente.getCorreo()))
+                .findFirst()
+                .orElse(null);
+
+        // Si ya existe un cliente con el mismo RUT o correo, devolver null o lanzar excepción
+        if (existeCliente != null) {
+            return new Cliente();
+        }
+        Integer id = Cliente.getIncrementarid();
         id+=1;
         cliente.setId(id);
+
+        // Agregar el nuevo cliente a la lista
         this.clientes.add(cliente);
-        return this.findByRut(cliente.getRut());
+
+        // Retornar el cliente recién creado
+        return cliente;
     }
 
     // Actualizar un cliente existente
